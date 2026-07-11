@@ -103,4 +103,3 @@ This intentionally does not include: offline support/service workers,
 password reset flow, social login, or an admin panel. If you want any of
 those later, they're additive — the schema and structure here won't need
 to change.
-"# lead" 
