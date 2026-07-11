@@ -2,6 +2,7 @@
    90-Day Tracker — Light theme, mobile-first.
    Designed to work cleanly from 360px wide phones up through desktop.
    ========================================================================= */
+[hidden]{ display: none !important; }
 
 :root{
   --bg:#f6f7f9;
