@@ -1,0 +1,267 @@
+/* =========================================================================
+   90-Day Tracker — Light theme, mobile-first.
+   Designed to work cleanly from 360px wide phones up through desktop.
+   ========================================================================= */
+
+:root{
+  --bg:#f6f7f9;
+  --surface:#ffffff;
+  --border:#e2e5ea;
+  --text:#1a1f29;
+  --text-dim:#6b7280;
+  --accent:#b45309;       /* amber-700, readable on white */
+  --accent-soft:#fdf1e3;
+  --success:#15803d;      /* green-700 */
+  --success-soft:#e7f5ec;
+  --danger:#b42318;
+  --danger-soft:#fdeceb;
+  --rest:#c7ccd4;
+  --radius:12px;
+  --font: -apple-system, BlinkMacSystemFont, "Segoe UI", Inter, Roboto, sans-serif;
+  --nav-h:60px;
+}
+
+*, *::before, *::after{ box-sizing:border-box; }
+
+html, body{
+  margin:0;
+  padding:0;
+  width:100%;
+  overflow-x:hidden;          /* guarantees no horizontal scroll */
+}
+
+body{
+  background:var(--bg);
+  color:var(--text);
+  font-family:var(--font);
+  font-size:16px;             /* prevents iOS auto-zoom on input focus */
+  line-height:1.5;
+  -webkit-text-size-adjust:100%;
+}
+
+h1,h2,h3{ margin:0; font-weight:700; }
+p{ margin:0; }
+
+button{ font-family:inherit; }
+input, textarea{ font-family:inherit; font-size:16px; }
+
+/* ---- Buttons -------------------------------------------------------- */
+.btn{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  min-height:44px;            /* comfortable tap target */
+  padding:10px 18px;
+  border-radius:8px;
+  border:1px solid transparent;
+  font-size:15px;
+  font-weight:600;
+  cursor:pointer;
+  transition:opacity .15s ease;
+}
+.btn:active{ opacity:.8; }
+.btn-block{ width:100%; }
+.btn-primary{ background:var(--accent); color:#fff; }
+.btn-ghost{ background:transparent; border-color:var(--border); color:var(--text); }
+.btn-sm{ min-height:36px; padding:6px 12px; font-size:13px; }
+.link-btn{
+  background:none; border:none; color:var(--accent); font-weight:600;
+  padding:0; cursor:pointer; font-size:inherit; text-decoration:underline;
+}
+
+/* ---- Banners (loading / error) --------------------------------------- */
+.banner{
+  border-radius:8px;
+  padding:12px 14px;
+  font-size:14px;
+  margin-bottom:14px;
+}
+.banner-error{ background:var(--danger-soft); color:var(--danger); border:1px solid #f3c6c1; }
+.banner-info{ background:var(--accent-soft); color:var(--accent); border:1px solid #f2ddc0; }
+
+/* ---- Layout shells ---------------------------------------------------- */
+.auth-screen{
+  min-height:100vh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:24px 16px;
+}
+.auth-card{
+  width:100%;
+  max-width:400px;
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:var(--radius);
+  padding:28px 22px;
+}
+.auth-card h1{ font-size:22px; margin-bottom:6px; }
+.auth-sub{ color:var(--text-dim); font-size:14px; margin-bottom:20px; }
+.auth-form{ display:flex; flex-direction:column; gap:14px; }
+.auth-form label{ display:flex; flex-direction:column; gap:6px; font-size:13px; font-weight:600; color:var(--text-dim); }
+.auth-form input{
+  padding:11px 12px;
+  border:1px solid var(--border);
+  border-radius:8px;
+  background:#fff;
+  color:var(--text);
+}
+.auth-form input:focus{ outline:2px solid var(--accent); outline-offset:1px; }
+.auth-toggle{ text-align:center; margin-top:16px; font-size:13.5px; color:var(--text-dim); }
+
+.app-screen{ min-height:100vh; padding-bottom:calc(var(--nav-h) + env(safe-area-inset-bottom) + 12px); }
+
+.app-header{
+  background:var(--surface);
+  border-bottom:1px solid var(--border);
+  padding:18px 16px 14px;
+}
+.header-row{ display:flex; align-items:flex-start; justify-content:space-between; gap:10px; }
+.eyebrow{ font-size:11.5px; letter-spacing:.06em; text-transform:uppercase; color:var(--accent); font-weight:700; margin-bottom:4px; }
+.app-header h1{ font-size:clamp(19px,5vw,24px); }
+.datebar{ display:flex; gap:16px; flex-wrap:wrap; font-size:12.5px; color:var(--text-dim); margin-top:10px; }
+.datebar b{ color:var(--text); }
+
+.views{ max-width:640px; margin:0 auto; padding:16px; }
+section.view{ display:none; }
+section.view.active{ display:block; }
+
+/* ---- Cards -------------------------------------------------------- */
+.card{
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:var(--radius);
+  padding:18px;
+  margin-bottom:14px;
+}
+.card h2{ font-size:17px; margin-bottom:4px; }
+.card .sub{ color:var(--text-dim); font-size:13px; margin-bottom:14px; }
+.muted{ color:var(--text-dim); font-size:14px; }
+
+/* ---- Today: workout list -------------------------------------------- */
+.today-focus{ display:flex; align-items:baseline; justify-content:space-between; flex-wrap:wrap; gap:6px; margin-bottom:6px; }
+.today-focus h2{ font-size:16px; }
+.tag{
+  font-size:11.5px; font-family:monospace; color:var(--accent);
+  background:var(--accent-soft); padding:3px 9px; border-radius:20px; white-space:nowrap;
+}
+.exlist{ list-style:none; margin:0; padding:0; }
+.exlist li{
+  display:flex; align-items:center; gap:12px;
+  padding:12px 0; border-bottom:1px solid var(--border);
+}
+.exlist li:last-child{ border-bottom:none; }
+.exlist input[type=checkbox]{
+  width:22px; height:22px; flex:none; accent-color:var(--success); cursor:pointer;
+}
+.exname{ flex:1; font-size:14.5px; min-width:0; }
+.exname small{ display:block; color:var(--text-dim); font-size:12px; margin-top:2px; }
+.exsr{ font-family:monospace; font-size:12.5px; color:var(--text-dim); white-space:nowrap; }
+.exlist li.checked .exname{ color:var(--text-dim); text-decoration:line-through; text-decoration-color:var(--border); }
+
+.restday{ text-align:center; padding:26px 10px; color:var(--text-dim); }
+.restday .big{ font-size:20px; color:var(--text); font-weight:700; margin-bottom:6px; }
+
+/* ---- Checklists (nutrition / appearance) ----------------------------- */
+.checkgrid{ display:grid; grid-template-columns:1fr; gap:14px; }
+@media(min-width:480px){ .checkgrid{ grid-template-columns:repeat(2,1fr); } }
+.checkblock h4{
+  font-size:11px; text-transform:uppercase; letter-spacing:.06em;
+  color:var(--accent); margin:0 0 8px; font-weight:700;
+}
+.checkblock label{ display:flex; align-items:center; gap:10px; font-size:14px; padding:6px 0; cursor:pointer; }
+.checkblock input{ width:19px; height:19px; accent-color:var(--success); flex:none; }
+
+/* ---- Notes -------------------------------------------------------- */
+textarea{
+  width:100%; min-height:84px;
+  background:#fff; border:1px solid var(--border); border-radius:8px;
+  color:var(--text); padding:11px; resize:vertical;
+}
+textarea:focus{ outline:2px solid var(--accent); outline-offset:1px; }
+
+/* ---- Week view -------------------------------------------------------- */
+.weekgrid{ display:grid; gap:14px; }
+.daycard{ border-left:3px solid var(--border); padding-left:14px; }
+.daycard.restcard{ border-left-color:var(--rest); }
+.daycard h3{ font-size:15px; margin-bottom:2px; }
+.daycard .foc{ color:var(--accent); font-size:12px; font-weight:600; margin-bottom:8px; }
+.daycard table{ width:100%; border-collapse:collapse; font-size:13px; }
+.daycard td{ padding:5px 0; border-bottom:1px dashed var(--border); }
+.daycard td:last-child{ text-align:right; font-family:monospace; color:var(--text-dim); white-space:nowrap; }
+
+/* ---- Progress / stats -------------------------------------------------- */
+.statrow{ display:flex; gap:10px; margin-bottom:14px; }
+.stat{
+  flex:1; min-width:0;
+  background:var(--surface); border:1px solid var(--border); border-radius:var(--radius);
+  padding:14px 10px; text-align:center;
+}
+.stat .n{ font-size:24px; font-weight:800; color:var(--accent); }
+.stat .l{ font-size:10.5px; color:var(--text-dim); text-transform:uppercase; letter-spacing:.04em; margin-top:2px; }
+
+/* Calendar grid: sized to never force horizontal scroll on 360px screens */
+.cal{ display:grid; grid-template-columns:repeat(10,1fr); gap:4px; }
+@media(min-width:480px){ .cal{ grid-template-columns:repeat(15,1fr); } }
+.cell{
+  aspect-ratio:1; border-radius:3px; background:var(--bg);
+  border:1px solid var(--border); cursor:pointer; min-width:0;
+}
+.cell.rest{ background:none; border-style:dashed; cursor:default; }
+.cell.l1{ background:var(--accent-soft); border-color:#f2ddc0; }
+.cell.l2{ background:#f0c48a; border-color:var(--accent); }
+.cell.l3{ background:var(--success); border-color:var(--success); }
+.cell.today{ outline:2px solid var(--text); outline-offset:1px; }
+
+.calkey{ display:flex; gap:14px; margin-top:12px; font-size:11.5px; color:var(--text-dim); flex-wrap:wrap; }
+.calkey span{ display:flex; align-items:center; gap:5px; }
+.sw{ width:11px; height:11px; border-radius:3px; display:inline-block; border:1px solid var(--border); }
+.sw-empty{ background:var(--bg); }
+.sw-l1{ background:var(--accent-soft); }
+.sw-l2{ background:#f0c48a; }
+.sw-l3{ background:var(--success); border-color:var(--success); }
+
+/* ---- Mental board table ------------------------------------------------ */
+.tablewrap{ overflow-x:auto; -webkit-overflow-scrolling:touch; } /* only this small table may scroll on tiny screens */
+.boardtable{ width:100%; min-width:480px; border-collapse:collapse; font-size:13.5px; }
+.boardtable th{
+  text-align:left; font-size:10.5px; text-transform:uppercase; color:var(--text-dim);
+  border-bottom:1px solid var(--border); padding:8px 6px; font-weight:700;
+}
+.boardtable td{ padding:9px 6px; border-bottom:1px solid var(--border); vertical-align:top; }
+.boardtable tr:last-child td{ border-bottom:none; }
+
+/* ---- Milestones -------------------------------------------------------- */
+.msrow{ display:flex; gap:12px; overflow-x:auto; padding-bottom:4px; -webkit-overflow-scrolling:touch; }
+.mscard{
+  min-width:190px; flex:none;
+  background:var(--bg); border:1px solid var(--border); border-radius:var(--radius); padding:13px;
+}
+.mscard .day{ color:var(--accent); font-size:11.5px; font-weight:700; margin-bottom:5px; }
+.mscard p{ font-size:13px; color:var(--text-dim); }
+
+/* ---- Bottom nav (mobile-first primary navigation) --------------------- */
+.bottom-nav{
+  position:fixed; bottom:0; left:0; right:0;
+  display:flex;
+  background:var(--surface);
+  border-top:1px solid var(--border);
+  height:var(--nav-h);
+  padding-bottom:env(safe-area-inset-bottom);
+  z-index:20;
+}
+.nav-btn{
+  flex:1;
+  background:none; border:none;
+  color:var(--text-dim);
+  font-size:12.5px; font-weight:600;
+  display:flex; align-items:center; justify-content:center;
+  cursor:pointer;
+}
+.nav-btn.active{ color:var(--accent); }
+
+/* ---- Larger screens: give the app a touch more breathing room --------- */
+@media(min-width:768px){
+  .views{ padding:24px 16px; }
+  .card{ padding:22px; }
+}

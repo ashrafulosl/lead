@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<title>90-Day Leader's Physique Tracker</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- ===================== AUTH SCREEN ===================== -->
+  <div id="authScreen" class="auth-screen">
+    <div class="auth-card">
+      <h1>90-Day Tracker</h1>
+      <p class="auth-sub">Sign in to sync your progress across every device.</p>
+
+      <div id="authError" class="banner banner-error" hidden></div>
+
+      <form id="loginForm" class="auth-form">
+        <label>Email
+          <input type="email" id="loginEmail" required autocomplete="email" inputmode="email">
+        </label>
+        <label>Password
+          <input type="password" id="loginPassword" required autocomplete="current-password" minlength="6">
+        </label>
+        <button type="submit" class="btn btn-primary btn-block" id="loginBtn">Sign In</button>
+      </form>
+
+      <form id="signupForm" class="auth-form" hidden>
+        <label>Email
+          <input type="email" id="signupEmail" required autocomplete="email" inputmode="email">
+        </label>
+        <label>Password
+          <input type="password" id="signupPassword" required autocomplete="new-password" minlength="6">
+        </label>
+        <button type="submit" class="btn btn-primary btn-block" id="signupBtn">Create Account</button>
+      </form>
+
+      <p class="auth-toggle">
+        <span id="toggleToSignup">Need an account? <button type="button" class="link-btn" id="showSignup">Sign up</button></span>
+        <span id="toggleToLogin" hidden>Already have an account? <button type="button" class="link-btn" id="showLogin">Sign in</button></span>
+      </p>
+    </div>
+  </div>
+
+  <!-- ===================== APP SCREEN ===================== -->
+  <div id="appScreen" class="app-screen" hidden>
+
+    <header class="app-header">
+      <div class="header-row">
+        <div>
+          <div class="eyebrow">Day <span id="dayLabel">—</span> / 90</div>
+          <h1>The Leader's Physique</h1>
+        </div>
+        <button id="logoutBtn" class="btn btn-ghost btn-sm">Log out</button>
+      </div>
+      <div class="datebar">
+        <span>Start <b id="startLabel">—</b></span>
+        <span>Target <b id="endLabel">—</b></span>
+      </div>
+    </header>
+
+    <main class="views">
+      <div id="globalError" class="banner banner-error" hidden></div>
+      <div id="globalLoading" class="banner banner-info" hidden>Loading…</div>
+
+      <!-- TODAY -->
+      <section class="view active" id="view-today">
+        <div class="card" id="todayWorkoutCard"></div>
+
+        <div class="card">
+          <h2>Nutrition — Today</h2>
+          <p class="sub">Protein target 100–120g · small surplus (~200–300 kcal)</p>
+          <div class="checkgrid" id="nutriGrid"></div>
+        </div>
+
+        <div class="card">
+          <h2>Note to self</h2>
+          <p class="sub">One line: what worked, what didn't, what you learned.</p>
+          <textarea id="dayNote" placeholder="e.g. Pull-ups still shaky on rep 5, backpack row felt easy — add weight next week."></textarea>
+        </div>
+      </section>
+
+      <!-- WEEK PLAN -->
+      <section class="view" id="view-week">
+        <div class="card">
+          <h2>Weekly Routine — Home Edition</h2>
+          <p class="sub">No gym required. Backpack = adjustable weight. Doorframe pull-up bar recommended.</p>
+          <div class="weekgrid" id="weekGrid"></div>
+        </div>
+      </section>
+
+      <!-- PROGRESS -->
+      <section class="view" id="view-progress">
+        <div class="statrow">
+          <div class="stat"><div class="n" id="statStreak">0</div><div class="l">Streak</div></div>
+          <div class="stat"><div class="n" id="statDone">0</div><div class="l">Days Logged</div></div>
+          <div class="stat"><div class="n" id="statPct">0%</div><div class="l">Completion</div></div>
+        </div>
+        <div class="card">
+          <h2>90-Day Grid</h2>
+          <p class="sub">Tap a day to cycle: blank → partial → good → full. Rest days are dashed.</p>
+          <div class="cal" id="calGrid"></div>
+          <div class="calkey">
+            <span><i class="sw sw-empty"></i>Not logged</span>
+            <span><i class="sw sw-l1"></i>Partial</span>
+            <span><i class="sw sw-l2"></i>Good</span>
+            <span><i class="sw sw-l3"></i>Full</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- APPEARANCE & CHARACTER -->
+      <section class="view" id="view-other">
+        <div class="card">
+          <h2>Appearance &amp; Presence</h2>
+          <p class="sub">Check weekly, not daily.</p>
+          <div class="checkgrid" id="appearanceGrid"></div>
+        </div>
+
+        <div class="card">
+          <h2>Mental Board — Study Rotation</h2>
+          <div class="tablewrap">
+            <table class="boardtable" id="boardTable"></table>
+          </div>
+        </div>
+
+        <div class="card">
+          <h2>Milestones</h2>
+          <div class="msrow" id="milestoneRow"></div>
+        </div>
+      </section>
+    </main>
+
+    <nav class="bottom-nav">
+      <button data-view="today" class="nav-btn active">Today</button>
+      <button data-view="week" class="nav-btn">Week</button>
+      <button data-view="progress" class="nav-btn">Progress</button>
+      <button data-view="other" class="nav-btn">More</button>
+    </nav>
+  </div>
+
+  <script type="module" src="js/main.js"></script>
+</body>
+</html>
