@@ -6,8 +6,8 @@
 // Get these from: Supabase Dashboard → Project Settings → API
 // The anon/public key is safe to expose in frontend code — Row Level
 // Security (see sql/schema.sql) is what actually protects each user's data.
-export const SUPABASE_URL = "YOUR_SUPABASE_PROJECT_URL";
-export const SUPABASE_ANON_KEY = "YOUR_SUPABASE_ANON_KEY";
+export const SUPABASE_URL = "https://trerfumyggjzrxabvyxi.supabase.co/rest/v1/";
+export const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRyZXJmdW15Z2dqenJ4YWJ2eXhpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODM3NzkzOTIsImV4cCI6MjA5OTM1NTM5Mn0.tZqUeVDRJ-0WZf4QpI1t02OF36vkUfSPUWaN6RRNV-0";
 
 // ---- Plan content ---------------------------------------------------------
 // This is static (not stored in the database) — it's the same for every
