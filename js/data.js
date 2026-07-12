@@ -88,3 +88,30 @@ export async function setAppearanceCheck(userId, itemKey, checked) {
 
   if (error) throw error;
 }
+
+// ---- plan_config ----------------------------------------------------
+// The user's entire editable routine (goal, week plan, nutrition,
+// appearance checklist, mental board, milestones) lives here as one
+// JSON blob. Returns null if the user has never saved one yet — the
+// caller falls back to DEFAULT_PLAN from config.js in that case.
+export async function getPlanConfig(userId) {
+  const { data, error } = await supabase
+    .from("plan_config")
+    .select("plan")
+    .eq("user_id", userId)
+    .maybeSingle();
+
+  if (error) throw error;
+  return data ? data.plan : null;
+}
+
+export async function savePlanConfig(userId, planObj) {
+  const { error } = await supabase
+    .from("plan_config")
+    .upsert(
+      { user_id: userId, plan: planObj },
+      { onConflict: "user_id" }
+    );
+
+  if (error) throw error;
+}

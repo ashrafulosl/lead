@@ -130,6 +130,39 @@
           <div class="msrow" id="milestoneRow"></div>
         </div>
       </section>
+
+      <!-- PLAN EDITOR -->
+      <section class="view" id="view-plan">
+        <div class="card">
+          <h2>Goal / Identity</h2>
+          <p class="sub">What you're building toward — shown as context for the whole plan.</p>
+          <textarea id="identityInput" rows="3"></textarea>
+          <button class="btn btn-primary" id="saveIdentityBtn" style="margin-top:10px;">Save Goal</button>
+        </div>
+
+        <div class="card">
+          <h2>Edit Full Routine (JSON)</h2>
+          <p class="sub">This is your entire plan — edit exercises, nutrition, dates, milestones, anything. Saves to your account and applies immediately across the app.</p>
+          <div id="planEditorMsg" class="banner banner-info" hidden></div>
+          <textarea id="planJsonInput" class="jsoneditor" rows="16" spellcheck="false"></textarea>
+          <div class="planbtnrow">
+            <button class="btn btn-primary" id="saveJsonBtn">Save Plan</button>
+            <button class="btn btn-ghost" id="resetPlanBtn">Reset to Default</button>
+          </div>
+        </div>
+
+        <div class="card">
+          <h2>Share / Backup</h2>
+          <p class="sub">Export your plan to send to someone else, or load one they've shared with you.</p>
+          <div class="planbtnrow">
+            <button class="btn btn-ghost" id="exportPlanBtn">Export as JSON file</button>
+            <label class="btn btn-ghost" for="importPlanFile" style="cursor:pointer;">
+              Import JSON file
+              <input type="file" id="importPlanFile" accept="application/json" hidden>
+            </label>
+          </div>
+        </div>
+      </section>
     </main>
 
     <nav class="bottom-nav">
@@ -137,6 +170,7 @@
       <button data-view="week" class="nav-btn">Week</button>
       <button data-view="progress" class="nav-btn">Progress</button>
       <button data-view="other" class="nav-btn">More</button>
+      <button data-view="plan" class="nav-btn">Plan</button>
     </nav>
   </div>
 

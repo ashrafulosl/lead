@@ -6,13 +6,23 @@
 // Get these from: Supabase Dashboard → Project Settings → API
 // The anon/public key is safe to expose in frontend code — Row Level
 // Security (see sql/schema.sql) is what actually protects each user's data.
-export const SUPABASE_URL = "https://trerfumyggjzrxabvyxi.supabase.co";
-export const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRyZXJmdW15Z2dqenJ4YWJ2eXhpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODM3NzkzOTIsImV4cCI6MjA5OTM1NTM5Mn0.tZqUeVDRJ-0WZf4QpI1t02OF36vkUfSPUWaN6RRNV-0";
+//
+// IMPORTANT: paste your real values back in here — this file was
+// regenerated to add the DEFAULT_PLAN changes below.
+export const SUPABASE_URL = "YOUR_SUPABASE_PROJECT_URL";
+export const SUPABASE_ANON_KEY = "YOUR_SUPABASE_ANON_KEY";
 
-// ---- Plan content ---------------------------------------------------------
-// This is static (not stored in the database) — it's the same for every
-// user. Only checkbox/note/progress state is synced per-user via Supabase.
-export const PLAN = {
+// ---- Default plan content --------------------------------------------
+// This is now only a FALLBACK / starting template. The first time you log
+// in, this gets copied into the `plan_config` table in Supabase, and from
+// then on the app reads and writes YOUR live copy there — editable from
+// the "Plan" tab in the app itself, no code changes needed.
+//
+// If you ever want to wipe your live plan and start over, use "Reset to
+// Default" in the Plan tab — it reloads exactly what's written here.
+export const DEFAULT_PLAN = {
+  identity: "My aspiration is to become a principled, intellectually curious, and quietly ambitious leader who earns respect through competence, integrity, and consistent execution.",
+
   startDate: "2026-07-10",   // YYYY-MM-DD
   totalDays: 90,
 
