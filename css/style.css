@@ -5,19 +5,55 @@
 
 [hidden]{ display:none !important; }
 
-:root{
-  --bg:#f6f7f9;
+/* ---- Theme tokens ----------------------------------------------------
+   `data-theme` is set on <html> by a tiny inline script in <head> (before
+   paint, to avoid a flash) and kept in sync by js/theme.js afterward.
+   Both themes define the exact same variable names, so nothing else in
+   this file needs to know which theme is active.
+   ------------------------------------------------------------------- */
+:root, [data-theme="light"]{
+  --bg:#f7f8fb;
   --surface:#ffffff;
-  --border:#e2e5ea;
-  --text:#1a1f29;
-  --text-dim:#6b7280;
-  --accent:#b45309;       /* amber-700, readable on white */
-  --accent-soft:#fdf1e3;
-  --success:#15803d;      /* green-700 */
-  --success-soft:#e7f5ec;
+  --surface-2:#f0f1f6;         /* slightly recessed surface, e.g. inputs */
+  --border:#e2e4ec;
+  --text:#171a23;
+  --text-dim:#666d80;
+  --accent:#4f46e5;            /* indigo-600 — focus & productivity */
+  --accent-contrast:#ffffff;
+  --accent-soft:#eeecfd;
+  --accent-border:#d9d5fa;
+  --success:#15803d;           /* emerald-700 — completion */
+  --success-soft:#e6f6ec;
+  --level2:#fbbf24;            /* amber-400 — "good" progress cells */
   --danger:#b42318;
   --danger-soft:#fdeceb;
+  --danger-border:#f3c6c1;
   --rest:#c7ccd4;
+  --shadow:0 1px 2px rgba(20,20,43,.04), 0 1px 12px rgba(20,20,43,.03);
+}
+
+[data-theme="dark"]{
+  --bg:#0e1016;
+  --surface:#171a23;
+  --surface-2:#1f232f;
+  --border:#2b3040;
+  --text:#eceef3;
+  --text-dim:#9099ac;
+  --accent:#818cf8;            /* indigo-400 — enough contrast on dark */
+  --accent-contrast:#12131c;
+  --accent-soft:#232544;
+  --accent-border:#3a3d6e;
+  --success:#34d399;           /* emerald-400 */
+  --success-soft:#183327;
+  --level2:#f0b429;
+  --danger:#f47066;
+  --danger-soft:#3a1f1e;
+  --danger-border:#5c2b28;
+  --rest:#3a4051;
+  --shadow:0 1px 2px rgba(0,0,0,.3), 0 1px 12px rgba(0,0,0,.2);
+}
+
+:root{
   --radius:12px;
   --font: -apple-system, BlinkMacSystemFont, "Segoe UI", Inter, Roboto, sans-serif;
   --nav-h:60px;
@@ -32,6 +68,8 @@ html, body{
   overflow-x:hidden;          /* guarantees no horizontal scroll */
 }
 
+html{ color-scheme: light dark; }
+
 body{
   background:var(--bg);
   color:var(--text);
@@ -39,6 +77,7 @@ body{
   font-size:16px;             /* prevents iOS auto-zoom on input focus */
   line-height:1.5;
   -webkit-text-size-adjust:100%;
+  transition:background-color .15s ease, color .15s ease;
 }
 
 h1,h2,h3{ margin:0; font-weight:700; }
@@ -63,8 +102,8 @@ input, textarea{ font-family:inherit; font-size:16px; }
 }
 .btn:active{ opacity:.8; }
 .btn-block{ width:100%; }
-.btn-primary{ background:var(--accent); color:#fff; }
-.btn-ghost{ background:transparent; border-color:var(--border); color:var(--text); }
+.btn-primary{ background:var(--accent); color:var(--accent-contrast); }
+.btn-ghost{ background:var(--surface); border-color:var(--border); color:var(--text); }
 .btn-sm{ min-height:36px; padding:6px 12px; font-size:13px; }
 .link-btn{
   background:none; border:none; color:var(--accent); font-weight:600;
@@ -78,16 +117,31 @@ input, textarea{ font-family:inherit; font-size:16px; }
   font-size:14px;
   margin-bottom:14px;
 }
-.banner-error{ background:var(--danger-soft); color:var(--danger); border:1px solid #f3c6c1; }
-.banner-info{ background:var(--accent-soft); color:var(--accent); border:1px solid #f2ddc0; }
+.banner-error{ background:var(--danger-soft); color:var(--danger); border:1px solid var(--danger-border); }
+.banner-info{ background:var(--accent-soft); color:var(--accent); border:1px solid var(--accent-border); }
+
+/* ---- Theme toggle button ------------------------------------------- */
+.theme-toggle{
+  width:38px; height:38px; flex:none;
+  display:inline-flex; align-items:center; justify-content:center;
+  border-radius:8px; border:1px solid var(--border);
+  background:var(--surface); color:var(--text-dim);
+  cursor:pointer; padding:0;
+}
+.theme-toggle:hover{ color:var(--accent); border-color:var(--accent-border); }
+.header-actions{ display:flex; align-items:center; gap:8px; }
 
 /* ---- Layout shells ---------------------------------------------------- */
 .auth-screen{
+  position:relative;
   min-height:100vh;
   display:flex;
   align-items:center;
   justify-content:center;
   padding:24px 16px;
+}
+.auth-screen > .theme-toggle{
+  position:absolute; top:18px; right:18px;
 }
 .auth-card{
   width:100%;
@@ -96,6 +150,7 @@ input, textarea{ font-family:inherit; font-size:16px; }
   border:1px solid var(--border);
   border-radius:var(--radius);
   padding:28px 22px;
+  box-shadow:var(--shadow);
 }
 .auth-card h1{ font-size:22px; margin-bottom:6px; }
 .auth-sub{ color:var(--text-dim); font-size:14px; margin-bottom:20px; }
@@ -105,7 +160,7 @@ input, textarea{ font-family:inherit; font-size:16px; }
   padding:11px 12px;
   border:1px solid var(--border);
   border-radius:8px;
-  background:#fff;
+  background:var(--surface-2);
   color:var(--text);
 }
 .auth-form input:focus{ outline:2px solid var(--accent); outline-offset:1px; }
@@ -114,7 +169,7 @@ input, textarea{ font-family:inherit; font-size:16px; }
 .app-screen{ min-height:100vh; padding-bottom:calc(var(--nav-h) + env(safe-area-inset-bottom) + 12px); }
 
 .app-header{
-  background:var(--surface);
+  background:linear-gradient(180deg, var(--accent-soft) 0%, var(--surface) 65%);
   border-bottom:1px solid var(--border);
   padding:18px 16px 14px;
 }
@@ -135,6 +190,7 @@ section.view.active{ display:block; }
   border-radius:var(--radius);
   padding:18px;
   margin-bottom:14px;
+  box-shadow:var(--shadow);
 }
 .card h2{ font-size:17px; margin-bottom:4px; }
 .card .sub{ color:var(--text-dim); font-size:13px; margin-bottom:14px; }
@@ -210,8 +266,8 @@ textarea:focus{ outline:2px solid var(--accent); outline-offset:1px; }
   border:1px solid var(--border); cursor:pointer; min-width:0;
 }
 .cell.rest{ background:none; border-style:dashed; cursor:default; }
-.cell.l1{ background:var(--accent-soft); border-color:#f2ddc0; }
-.cell.l2{ background:#f0c48a; border-color:var(--accent); }
+.cell.l1{ background:var(--accent-soft); border-color:var(--accent-border); }
+.cell.l2{ background:var(--level2); border-color:var(--accent); }
 .cell.l3{ background:var(--success); border-color:var(--success); }
 .cell.today{ outline:2px solid var(--text); outline-offset:1px; }
 
@@ -220,7 +276,7 @@ textarea:focus{ outline:2px solid var(--accent); outline-offset:1px; }
 .sw{ width:11px; height:11px; border-radius:3px; display:inline-block; border:1px solid var(--border); }
 .sw-empty{ background:var(--bg); }
 .sw-l1{ background:var(--accent-soft); }
-.sw-l2{ background:#f0c48a; }
+.sw-l2{ background:var(--level2); }
 .sw-l3{ background:var(--success); border-color:var(--success); }
 
 /* ---- Mental board table ------------------------------------------------ */
@@ -251,6 +307,7 @@ textarea:focus{ outline:2px solid var(--accent); outline-offset:1px; }
   height:var(--nav-h);
   padding-bottom:env(safe-area-inset-bottom);
   z-index:20;
+  box-shadow:0 -2px 10px rgba(0,0,0,.04);
 }
 .nav-btn{
   flex:1;
@@ -259,8 +316,15 @@ textarea:focus{ outline:2px solid var(--accent); outline-offset:1px; }
   font-size:12.5px; font-weight:600;
   display:flex; align-items:center; justify-content:center;
   cursor:pointer;
+  position:relative;
 }
 .nav-btn.active{ color:var(--accent); }
+.nav-btn.active::before{
+  content:"";
+  position:absolute; top:0; left:50%; transform:translateX(-50%);
+  width:24px; height:3px; border-radius:0 0 3px 3px;
+  background:var(--accent);
+}
 
 /* ---- Plan editor -------------------------------------------------- */
 .jsoneditor{

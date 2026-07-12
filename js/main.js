@@ -5,6 +5,9 @@
 import { supabase } from "./supabaseClient.js";
 import { showAuthScreen, showAppScreen } from "./auth.js"; // also wires up form handlers as a side effect
 import { initApp } from "./app.js";
+import { initTheme } from "./theme.js";
+
+initTheme();
 
 let appInitialized = false;
 
