@@ -12,6 +12,7 @@ import {
   getPlanConfig,
   savePlanConfig
 } from "./data.js";
+import { getTodaySuggestion, sendChatMessage, getChatHistory } from "./ai.js";
 
 const DAY_NAMES = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 const WEEK_ORDER = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
@@ -71,6 +72,23 @@ function computeDates() {
 }
 
 let editorWired = false;
+let chatWired = false;
+let aiFocusWired = false;
+
+// Builds the compact context object sent to the Edge Function with every
+// AI call — last 14 days, clamped so it never reaches before the plan's
+// own start date.
+function aiContext() {
+  const histStart = new Date(today);
+  histStart.setDate(histStart.getDate() - 13);
+  if (histStart < start) histStart.setTime(start.getTime());
+  return {
+    todayStr: iso(today),
+    dayName: dayNameOf(today),
+    historyStart: iso(histStart),
+    historyEnd: iso(today)
+  };
+}
 
 export async function initApp(authedUser) {
   user = authedUser;
@@ -78,6 +96,10 @@ export async function initApp(authedUser) {
   if (!editorWired) {
     setupPlanEditor();
     editorWired = true;
+  }
+  if (!aiFocusWired) {
+    setupAIFocus();
+    aiFocusWired = true;
   }
 
   showLoading(true);
@@ -98,6 +120,12 @@ export async function initApp(authedUser) {
   showLoading(false);
 
   await renderAll();
+
+  if (!chatWired) {
+    setupChat();
+    chatWired = true;
+  }
+  await loadChatHistory();
 }
 
 async function renderAll() {
@@ -107,6 +135,7 @@ async function renderAll() {
   renderCalendar();
   renderOther();
   renderPlanEditor();
+  renderAIFocus();
 }
 
 function renderHeader() {
@@ -410,5 +439,87 @@ export function setupPlanEditor() {
     };
     reader.readAsText(file);
     e.target.value = ""; // allow re-importing the same filename later
+  });
+}
+
+// ---- AI: TODAY'S FOCUS -----------------------------------------------
+async function renderAIFocus(forceRefresh = false) {
+  const textEl = document.getElementById("aiFocusText");
+  const btn = document.getElementById("refreshSuggestionBtn");
+  if (!textEl) return; // view not in DOM yet
+
+  textEl.textContent = forceRefresh ? "Refreshing…" : "Thinking about today…";
+  textEl.className = "muted";
+  if (btn) btn.disabled = true;
+
+  const suggestion = await guarded(
+    () => getTodaySuggestion(aiContext(), forceRefresh),
+    "Couldn't reach the AI coach — check your connection, or that the Edge Function is deployed."
+  );
+
+  if (btn) btn.disabled = false;
+  if (suggestion) {
+    textEl.textContent = suggestion;
+    textEl.className = "";
+  } else if (textEl.className === "muted") {
+    textEl.textContent = "Couldn't load a suggestion. Try Refresh.";
+  }
+}
+
+export function setupAIFocus() {
+  const btn = document.getElementById("refreshSuggestionBtn");
+  if (btn) btn.addEventListener("click", () => renderAIFocus(true));
+}
+
+// ---- AI: COACH CHAT ----------------------------------------------------
+function chatBubble(role, content) {
+  const div = document.createElement("div");
+  div.className = "chatmsg chatmsg-" + role;
+  div.textContent = content;
+  return div;
+}
+
+async function loadChatHistory() {
+  const box = document.getElementById("chatMessages");
+  if (!box) return;
+  box.innerHTML = `<p class="muted">Loading conversation…</p>`;
+  const history = await guarded(() => getChatHistory(), "Couldn't load chat history.");
+  box.innerHTML = "";
+  if (!history || history.length === 0) {
+    box.innerHTML = `<p class="muted">No messages yet — ask something below.</p>`;
+    return;
+  }
+  history.forEach((m) => box.appendChild(chatBubble(m.role, m.content)));
+  box.scrollTop = box.scrollHeight;
+}
+
+function setupChat() {
+  const form = document.getElementById("chatForm");
+  const input = document.getElementById("chatInput");
+  const box = document.getElementById("chatMessages");
+  if (!form) return;
+
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const text = input.value.trim();
+    if (!text) return;
+
+    input.value = "";
+    input.disabled = true;
+    if (box.querySelector(".muted")) box.innerHTML = "";
+    box.appendChild(chatBubble("user", text));
+    const thinking = chatBubble("assistant", "…");
+    box.appendChild(thinking);
+    box.scrollTop = box.scrollHeight;
+
+    const reply = await guarded(
+      () => sendChatMessage(aiContext(), text),
+      "Couldn't reach the AI coach — check your connection, or that the Edge Function is deployed."
+    );
+
+    thinking.textContent = reply || "(no response — try again)";
+    input.disabled = false;
+    input.focus();
+    box.scrollTop = box.scrollHeight;
   });
 }

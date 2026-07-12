@@ -326,6 +326,36 @@ textarea:focus{ outline:2px solid var(--accent); outline-offset:1px; }
   background:var(--accent);
 }
 
+/* ---- AI features -------------------------------------------------- */
+.aitag{
+  display:inline-block; font-size:9.5px; font-weight:800; letter-spacing:.05em;
+  color:var(--accent-contrast); background:var(--accent);
+  padding:2px 6px; border-radius:5px; vertical-align:middle; margin-left:6px;
+}
+.chatbox{
+  max-height:280px; overflow-y:auto; -webkit-overflow-scrolling:touch;
+  display:flex; flex-direction:column; gap:8px;
+  padding:4px 2px; margin-bottom:10px;
+}
+.chatmsg{
+  max-width:85%; padding:9px 12px; border-radius:12px; font-size:14px; line-height:1.4;
+  white-space:pre-wrap; word-break:break-word;
+}
+.chatmsg-user{
+  align-self:flex-end; background:var(--accent); color:var(--accent-contrast);
+  border-bottom-right-radius:3px;
+}
+.chatmsg-assistant{
+  align-self:flex-start; background:var(--surface-2); color:var(--text);
+  border-bottom-left-radius:3px;
+}
+.chatform{ display:flex; gap:8px; }
+.chatform input{
+  flex:1; padding:11px 12px; border:1px solid var(--border); border-radius:8px;
+  background:var(--surface-2); color:var(--text);
+}
+.chatform input:focus{ outline:2px solid var(--accent); outline-offset:1px; }
+
 /* ---- Plan editor -------------------------------------------------- */
 .jsoneditor{
   font-family:monospace;

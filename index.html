@@ -89,6 +89,15 @@
         <div class="card" id="todayWorkoutCard"></div>
 
         <div class="card">
+          <div class="today-focus">
+            <h2>Today's Focus <span class="aitag">AI</span></h2>
+            <button class="btn btn-ghost btn-sm" id="refreshSuggestionBtn">Refresh</button>
+          </div>
+          <p class="sub">Weighs in on more than just workout/nutrition — appearance, presence, character too, based on your recent history.</p>
+          <div id="aiFocusText" class="muted">Loading…</div>
+        </div>
+
+        <div class="card">
           <h2>Nutrition — Today</h2>
           <p class="sub">Protein target 100–120g · small surplus (~200–300 kcal)</p>
           <div class="checkgrid" id="nutriGrid"></div>
@@ -98,6 +107,16 @@
           <h2>Note to self</h2>
           <p class="sub">One line: what worked, what didn't, what you learned.</p>
           <textarea id="dayNote" placeholder="e.g. Pull-ups still shaky on rep 5, backpack row felt easy — add weight next week."></textarea>
+        </div>
+
+        <div class="card">
+          <h2>Coach Chat <span class="aitag">AI</span></h2>
+          <p class="sub">Has context on your goal, today's plan, and recent history — remembers past conversations too.</p>
+          <div id="chatMessages" class="chatbox"></div>
+          <form id="chatForm" class="chatform">
+            <input type="text" id="chatInput" placeholder="Ask something…" autocomplete="off">
+            <button type="submit" class="btn btn-primary btn-sm">Send</button>
+          </form>
         </div>
       </section>
 
