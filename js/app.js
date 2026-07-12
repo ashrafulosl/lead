@@ -17,7 +17,15 @@ const DAY_NAMES = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 const WEEK_ORDER = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
 
 const fmt = (d) => d.toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" });
-const iso = (d) => d.toISOString().slice(0, 10);
+// IMPORTANT: do NOT use toISOString() here — it converts to UTC first,
+// which rolls the date back by one for anyone east of UTC (e.g. Bangladesh,
+// UTC+6) around midnight. Build the string from local date parts instead.
+const iso = (d) => {
+  const y = d.getFullYear();
+  const m = String(d.getMonth() + 1).padStart(2, "0");
+  const day = String(d.getDate()).padStart(2, "0");
+  return `${y}-${m}-${day}`;
+};
 const dayNameOf = (d) => DAY_NAMES[d.getDay()];
 
 const globalError = document.getElementById("globalError");
